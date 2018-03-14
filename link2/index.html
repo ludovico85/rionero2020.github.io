@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Corine_Area_vasta_0.js"></script>
+        <script src="data/Area_vasta_1.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.3875544335,13.5692060088],[42.0087662307,15.1828791222]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://stamen-tiles-a.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}.png', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+		
+		var SITAP = L.tileLayer.wms('http://sitap.beniculturali.it:8080/geoserver/apar.public/ows?', {
+		layers:'v1497_wgs84',
+		format: 'image/jpeg',
+		transparent: true,
+		});
+		
+		
+		
+        function setBounds() {
+        }
+        function pop_Corine_Area_vasta_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>clc12_3l_2</strong><br />' + (feature.properties['clc12_3l_2'] !== null ? Autolinker.link(String(feature.properties['clc12_3l_2'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>liv_3</strong><br />' + (feature.properties['liv_3'] !== null ? Autolinker.link(String(feature.properties['liv_3'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Corine_Area_vasta_0_0(feature) {
+            switch(String(feature.properties['liv_3'])) {
+                case 'Aree a pascolo naturale e praterie d\'alta quota':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(178,223,138,0.8)',
+            }
+                    break;
+                case 'Aree a vegetazione boschiva e arbustiva in evoluzione':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(192,198,42,0.8)',
+            }
+                    break;
+                case 'Aree con vegetazione rada':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,229,201,0.8)',
+            }
+                    break;
+                case 'Aree estrattive':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,62,67,0.8)',
+            }
+                    break;
+                case 'Aree prev. occup.da colture agrarie, con spazi nat.':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,255,145,0.8)',
+            }
+                    break;
+                case 'Bacini d\'acqua':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(39,140,255,0.8)',
+            }
+                    break;
+                case 'Boschi di conifere':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(28,91,14,0.8)',
+            }
+                    break;
+                case 'Boschi di latifoglie':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(62,212,12,0.8)',
+            }
+                    break;
+                case 'Boschi misti':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,126,6,0.8)',
+            }
+                    break;
+                case 'Prati stabili':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(158,223,111,0.8)',
+            }
+                    break;
+                case 'Reti stradali e ferroviarie e spazi accessori':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,136,137,0.8)',
+            }
+                    break;
+                case 'Seminitavi in aree non irrigue':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,218,24,0.8)',
+            }
+                    break;
+                case 'Sistemi colturali e particellari permanenti':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,175,33,0.8)',
+            }
+                    break;
+                case 'Tessuto urbano continuo':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(3,4,7,0.8)',
+            }
+                    break;
+                case 'Tessuto urbano discontinuo':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(58,66,55,0.8)',
+            }
+                    break;
+                case 'Uliveti':
+                    return {
+                pane: 'pane_Corine_Area_vasta_0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(105,149,96,0.8)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Corine_Area_vasta_0');
+        map.getPane('pane_Corine_Area_vasta_0').style.zIndex = 400;
+        map.getPane('pane_Corine_Area_vasta_0').style['mix-blend-mode'] = 'normal';
+        var layer_Corine_Area_vasta_0 = new L.geoJson(json_Corine_Area_vasta_0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Corine_Area_vasta_0',
+            onEachFeature: pop_Corine_Area_vasta_0,
+            style: style_Corine_Area_vasta_0_0,
+        });
+        bounds_group.addLayer(layer_Corine_Area_vasta_0);
+        map.addLayer(layer_Corine_Area_vasta_0);
+        function pop_Area_vasta_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>COMUNE</strong><br />' + (feature.properties['COMUNE'] !== null ? Autolinker.link(String(feature.properties['COMUNE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Area_vasta_1_0() {
+            return {
+                pane: 'pane_Area_vasta_1',
+                opacity: 1,
+                color: 'rgba(128,128,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(146,129,78,0.0)',
+            }
+        }
+        map.createPane('pane_Area_vasta_1');
+        map.getPane('pane_Area_vasta_1').style.zIndex = 401;
+        map.getPane('pane_Area_vasta_1').style['mix-blend-mode'] = 'normal';
+        var layer_Area_vasta_1 = new L.geoJson(json_Area_vasta_1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Area_vasta_1',
+            onEachFeature: pop_Area_vasta_1,
+            style: style_Area_vasta_1_0,
+        });
+        bounds_group.addLayer(layer_Area_vasta_1);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Area_vasta_1.png" /> Limiti comunali': layer_Area_vasta_1,'Copertura del Suolo<br /><table><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Areeapascolonaturaleeprateriedaltaquota0.png" /></td><td>Aree a pascolo naturale e praterie d alta quota</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Areeavegetazioneboschivaearbustivainevoluzione1.png" /></td><td>Aree a vegetazione boschiva e arbustiva in evoluzione</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Areeconvegetazionerada2.png" /></td><td>Aree con vegetazione rada</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Areeestrattive3.png" /></td><td>Aree estrattive</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Areeprevoccupdacoltureagrarieconspazinat4.png" /></td><td>Aree prev. occup.da colture agrarie, con spazi nat.</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Bacinidacqua5.png" /></td><td>Bacini d acqua</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Boschidiconifere6.png" /></td><td>Boschi di conifere</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Boschidilatifoglie7.png" /></td><td>Boschi di latifoglie</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Boschimisti8.png" /></td><td>Boschi misti</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Pratistabili9.png" /></td><td>Prati stabili</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Retistradalieferroviarieespaziaccessori10.png" /></td><td>Reti stradali e ferroviarie e spazi accessori</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Seminitaviinareenonirrigue11.png" /></td><td>Seminitavi in aree non irrigue</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Sistemicolturalieparticellaripermanenti12.png" /></td><td>Sistemi colturali e particellari permanenti</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Tessutourbanocontinuo13.png" /></td><td>Tessuto urbano continuo</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Tessutourbanodiscontinuo14.png" /></td><td>Tessuto urbano discontinuo</td></tr><tr><td style="text-align: center;"><img src="legend/Corine_Area_vasta_0_Uliveti15.png" /></td><td>Uliveti</td></tr></table>': layer_Corine_Area_vasta_0,SITAP},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>

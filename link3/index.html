@@ -1,0 +1,280 @@
+<!DOCTYPE html><html>
+<head><title>Leaflet Essentials</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="leaflet/leaflet.css">
+<link rel="stylesheet" href="leaflet/leaflet-sidebar.css">
+<link rel="stylesheet" href="leaflet\font-awesome-4.7.0\css\font-awesome.css">
+<link rel="stylesheet" href="leaflet/leaflet-search.css">
+<!--<link rel="stylesheet" href="leaflet\leaflet-fusesearch-master\src\leaflet.fusesearch.css">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<style>
+body{
+padding: 0;
+margin: 0;
+    }
+html, body, #map {
+height: 100%;
+font-family: verdana;
+        }
+</style>
+
+</head>
+<body>
+<div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-info"></i></a></li>
+                <li><a href="#dati" role="tab"><i class="fa fa-map"></i></a></li>
+				<li><a href="#search" role="tab"><i class="fa fa-search"></i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    Siti di interesse storico, turistico..
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+                <p>A responsive sidebar for mapping libraries like <a href="http://leafletjs.com/">Leaflet</a> or <a href="http://openlayers.org/">OpenLayers</a>.</p>
+
+                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+
+            <div class="sidebar-pane" id="dati">
+                <h1 class="sidebar-header">Sito di interesse<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+				<p id="geotext"></p>
+				<p id="sidebar-text"></p>
+            </div>
+			
+			<div class="sidebar-pane" id="search">
+                <h1 class="sidebar-header">Cerca il sito di interesse<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+				<p id="geotext"></p>
+				<p id="sidebar-text"></p>
+            </div>
+			
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div>
+    </div>
+ 
+<div id="map"></div>
+<script src="leaflet/leaflet.js"></script>
+<script src="leaflet/leaflet-sidebar.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!-- call to jquery -->
+<script src="leaflet/leaflet-search.js"></script>
+<script type="text/javascript" src="leaflet/leaflet.ajax.js"></script>
+<script src="leaflet/spin.js"></script>
+<script src="leaflet/leaflet.spin.js"></script>
+<script>
+
+var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.80,14.10],[41.67,14.20]]);
+
+var basemap0 = L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+            attribution: 'Map tiles by <a href="https://stamen.com/">Stamen design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 32
+        });
+basemap0.addTo(map);
+
+var sidebar = L.control.sidebar('sidebar', {
+    position: 'left'
+});
+sidebar.addTo(map);
+
+
+// add wms
+var basemap1 = L.tileLayer.wms('http://213.215.135.196/reflector/open/service?', {
+layers:'rv1',
+format: 'image/jpeg',
+transparent: false,
+attribution: '&copy; <a href="http://www.realvista.it/">Realvista</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+});
+basemap1.addTo(map);
+
+let basemapControl = {
+  "Ortofoto": basemap1,
+  "Stamen Terrain": basemap0
+}
+
+<!--var geojson2 = new L.GeoJSON.AJAX(["Limite comunale.geojson"]).addTo(map);->
+
+var geojson = [
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"OBJECTID":1,"Nome":"Pratella","Tipo":"Paesaggio","Foto":"leaflet/images/foto/pratella.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.170689582824707,41.75866779627992]}},{"type":"Feature","properties":{"OBJECTID":2,"Nome":"Fonte del Tafarone","Tipo":"Fontane","Foto":"leaflet/images/foto/fontetafarone.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.166703820228577,41.74256724699991]}},{"type":"Feature","properties":{"OBJECTID":3,"Nome":"Vallone Santa Croce","Tipo":"Paesaggio","Foto":"leaflet/images/foto/vallonesantacroce.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.169423580169678,41.74823071440708]}},{"type":"Feature","properties":{"OBJECTID":4,"Nome":"Rifugio \"Grascito\"","Tipo":"Rifugio","Foto":"leaflet/images/foto/rifugiograscito.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.166816473007202,41.75685903710445]}},{"type":"Feature","properties":{"OBJECTID":5,"Nome":"Fonte della \"Pusticchia\"","Tipo":"Fontane","Foto":"leaflet/images/foto/fontepusticchia.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.16948527097702,41.75784745828084]}},{"type":"Feature","properties":{"OBJECTID":6,"Nome":"Rifugio \"Guado San Pietro\"","Tipo":"Rifugio","Foto":"leaflet/images/foto/rifugiosanpietro.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.170764684677124,41.762645286472484]}},{"type":"Feature","properties":{"OBJECTID":7,"Nome":"Cinta muraria sannitica","Tipo":"Storia","Foto":"leaflet/images/foto/cintamuraria.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.164777994155884,41.746909950422015]}},{"type":"Feature","properties":{"OBJECTID":8,"Nome":"Castello \"R' cuastegl'\"","Tipo":"Castello","Foto":"leaflet/images/foto/cuastegl.jpg","Descrizione":"I racconti antichi narrano dell'esistenza di un ponte levatoio e di un fossato. Resti di mura medioevali ancora visibili."},"geometry":{"type":"Point","coordinates":[14.158791303634642,41.74584531482566]}},{"type":"Feature","properties":{"OBJECTID":9,"Nome":"Fonte San Lorenzo","Tipo":"Fontane","Foto":"leaflet/images/foto/fontesanlorenzo.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.16161835193634,41.742489195726165]}},{"type":"Feature","properties":{"OBJECTID":10,"Nome":"Lavatorio","Tipo":"Fontane","Foto":"leaflet/images/foto/lavatoio.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.161637127399445,41.742399136446245]}},{"type":"Feature","properties":{"OBJECTID":11,"Nome":"Chiesa San Lorenzo","Tipo":"Chiesa","Foto":"leaflet/images/foto/chiesasanlorenzo.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.161548614501951,41.74271934664541]}},{"type":"Feature","properties":{"OBJECTID":12,"Nome":"Casa Natale del Fante Eugenio Frate","Tipo":"Edificio","Foto":"leaflet/images/foto/eugeniofrate.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.158820807933807,41.74154456766]}},{"type":"Feature","properties":{"OBJECTID":13,"Nome":"Parco giochi","Tipo":"Parco","Foto":"leaflet/images/foto/parcomontalto.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.158885180950165,41.742060912689304]}},{"type":"Feature","properties":{"OBJECTID":14,"Nome":"Termine lapideo","Tipo":"Termini","Foto":"leaflet/images/foto/termine.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.156103730201721,41.74290746939277]}},{"type":"Feature","properties":{"OBJECTID":15,"Nome":"Fonte di Cuculone","Tipo":"Fontane","Foto":"leaflet/images/foto/cuculone.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.151050448417664,41.74218299365912]}},{"type":"Feature","properties":{"OBJECTID":16,"Nome":"Borgata Carboni","Tipo":"Borgata","Foto":"leaflet/images/foto/carboni.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.158297777175902,41.73952117561373]}},{"type":"Feature","properties":{"OBJECTID":17,"Nome":"Chiesa della Madonna del Rosario","Tipo":"Chiesa","Foto":"leaflet/images/foto/vernali.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.161132872104643,41.721179651682604]}},{"type":"Feature","properties":{"OBJECTID":18,"Nome":"Chiesa Santi Mariano e Giacomo","Tipo":"Chiesa","Foto":"leaflet/images/foto/sanmarianogiacomo.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.15614128112793,41.706345270346716]}},{"type":"Feature","properties":{"OBJECTID":19,"Nome":"Parco giochi","Tipo":"Parco","Foto":"leaflet/images/foto/parcorionero.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.143186211585999,41.7091205951225]}},{"type":"Feature","properties":{"OBJECTID":20,"Nome":"Campo polivalente","Tipo":"Sport","Foto":"leaflet/images/foto/campetto.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.14291799068451,41.709525069682755]}},{"type":"Feature","properties":{"OBJECTID":21,"Nome":"Chiesa San Bartolomeo","Tipo":"Chiesa","Foto":"leaflet/images/foto/chiesasanbartolomeo.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.140313565731049,41.7124284014813]}},{"type":"Feature","properties":{"OBJECTID":22,"Nome":"Piazza della Repubblica","Tipo":"Piazza","Foto":"leaflet/images/foto/piazzarepubblica.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.1399085521698,41.71235632034817]}},{"type":"Feature","properties":{"OBJECTID":23,"Nome":"Chiesa Santissima Trinità","Tipo":"Chiesa","Foto":"leaflet/images/foto/chiesatrinita.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.14014995098114,41.713045092316115]}},{"type":"Feature","properties":{"OBJECTID":24,"Nome":"Palazzo Ducale","Tipo":"Edificio","Foto":"leaflet/images/foto/palazzoducale.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.139023423194883,41.7121100425335]}},{"type":"Feature","properties":{"OBJECTID":25,"Nome":"Parco giochi","Tipo":"Parco","Foto":"leaflet/images/foto/parcopineta.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.13792371749878,41.7149031380236]}},{"type":"Feature","properties":{"OBJECTID":26,"Nome":"Campo sportivo","Tipo":"Sport","Foto":"leaflet/images/foto/pratadentro.jpg","Descrizione":"Lorem ipsum dolor sit amet"},"geometry":{"type":"Point","coordinates":[14.12936210632324,41.711319143983786]}}]}
+];
+
+var results = [];
+          //open sidebar and more content when clicking button in popup
+          var thisResult;
+          function openSidebar(ID) {
+              if ($('#sidebar-text').text().length > 0) {
+                  $("#sidebar-text").removeText();
+              }
+              for (var i = 0, len = results.length; i < len; i++) {
+                  if (results[i].OBJECTID === parseInt(ID)) {
+                      thisResult = (results[i]);
+                  }
+              }
+              sidebar.open('dati');
+              var divToAddContent = document.getElementById('geotext');
+              divToAddContent.innerHTML = "<i>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</i><br> <b>Nome:</b></br>" + thisResult.Nome + "</br><b>Categoria</b>:</br>" + thisResult.Categoria + "</br><b>Descrizione:</b></br>" + thisResult.Descrizione+ "<br><br></h4><img src=" + thisResult.Foto + " width=100%/>";
+          }
+
+function styleFunction(feature, latlng){
+switch(feature.properties["Tipo"]) {
+case "Castello":
+	var castelloIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/castello.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: castelloIcon});
+case "Paesaggio":
+	var paesaggioIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/paesaggio.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: paesaggioIcon});
+case "Rifugio":
+	var rifugioIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/rifugio.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: rifugioIcon});
+case "Fontane":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});
+case "Storia":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});	
+case "Edificio":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});	
+case "Parco":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});	
+case "Termini":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});
+case "Borgata":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});
+case "Chiesa":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});
+case "Sport":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});	
+case "Parco":
+	var muliniIcon = new L.icon ({
+	iconUrl: 'leaflet/images/icone/mulini.png',
+	iconSize: [30,30]
+	});
+	return L.marker(latlng, {icon: muliniIcon});
+}
+};
+
+	
+var myLayer = L.geoJSON(geojson, {
+pointToLayer: styleFunction,
+onEachFeature: function (feature, layer) {
+layer.bindPopup("<h4 class='custom-popup'>" + feature.properties.Nome +"</h4><img src=" + feature.properties.Foto + " width=100%/>"+ '<br></br>'+'<h4 style="text-align:center"> <button type="button" class="btn btn-primary sidebar-open-button" data = "' + feature.properties.OBJECTID + '" ' + '>Maggiori informazioni</button>');
+feature.layer = layer;
+results.push(feature.properties);
+return layer;
+}
+}
+).addTo(map);
+
+		  
+$("div").on("click", '.sidebar-open-button', function () {
+     var ID = $(this).attr("data");
+     openSidebar(ID);
+ });
+
+ //add sidebar panel to map
+ var sidebar = L.control.sidebar('sidebar', { position: 'left' });
+ map.addControl(sidebar);
+
+let layerControl = {
+  "My Layer": myLayer, // an option to show or hide the layer you created from geojson
+} 
+ 
+L.control.layers(basemapControl).addTo(map);
+var sidebar = L.control.sidebar('sidebar').addTo(map);
+var zoomControl = L.control.zoom({position: 'bottomright'}).addTo(map);
+
+
+//var control = new L.control.layers(layerControl, layerControl).addTo(map);
+//var htmlObject = control.getContainer();
+//  var a = document.getElementById('search')
+//  function setParent(el, newParent){
+//    newParent.appendChild(el);
+//  }
+//  setParent(htmlObject, a);
+  
+ 
+ 
+ var search = new L.Control.Search({
+            layer: myLayer,
+            initial: false,
+			position: 'topright',
+            hideMarkerOnCollapse: true,
+            propertyName: 'Nome'}).addTo(map);
+ 
+//map.addControl(new L.Control.Search({
+//           layer: myLayer,
+//           initial: false,
+//			position: 'topright',
+//           hideMarkerOnCollapse: true,
+//           propertyName: 'Tipo'}));
+//
+var htmlObject = search.getContainer();
+  var a = document.getElementById('search')
+  function setParent(el, newParent){
+    newParent.appendChild(el);
+  }
+  setParent(htmlObject, a);
+
+
+//var searchCtrl = L.control.fuseSearch();
+//searchCtrl.addTo(map);
+//searchCtrl.indexFeatures(myLayer, ['Tipo']);
+
+</script>
+</body>
+</html>
