@@ -1,0 +1,86 @@
+.btn-info:hover{
+	color:#fff;
+	background-color:#f1715c;
+	border-color:#f1715c}	
+.btn-info {
+    color: #fff;
+    background-color: #FEDA60;
+	border-color: #FEDA60;}
+	
+.btn-info:active{
+    color: #fff;
+    background-color: #f1715c;
+    border-color: #f1715c;
+}
+
+.btn-info:focus{
+    color: #fff;
+    background-color: #f1715c;
+    border-color: #f1715c;
+}
+
+.btn-info:visited{
+    color: #fff;
+    background-color: #FEDA60;
+    border-color: #FEDA60;
+}
+
+.btn-info:focus-within{
+    color: #fff;
+    background-color: #f1715c;
+    border-color: #f1715c;
+}
+
+.btn-info:active:focus, .btn-info:active:hover, .open>.dropdown-toggle.btn-info.focus, .open>.dropdown-toggle.btn-info:focus, .open>.dropdown-toggle.btn-info:hover {
+    color: #fff;
+    background-color: #f1715c;
+    border-color: #f1715c;
+}
+
+#demo{
+margin-right: 10px;	
+}
+#demo1{
+margin-right: 10px;	
+}
+#demo2{
+margin-right: 10px;	
+}
+#demo3{
+margin-right: 10px;	
+}
+#demo4{
+margin-right: 10px;	
+}
+#demo5{
+margin-right: 10px;	
+}
+#demo6{
+margin-right: 10px;	
+}
+#demo7{
+margin-right: 10px;	
+}
+#demo8{
+margin-right: 10px;	
+}
+#demo9{
+margin-right: 10px;	
+}
+#demo10{
+margin-right: 10px;	
+}
+#demo11{
+margin-right: 10px;	
+}
+
+
+
+
+
+
+
+
+
+
+

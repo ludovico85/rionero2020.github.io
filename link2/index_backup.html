@@ -11,8 +11,6 @@
         <link rel="stylesheet" href="css/leaflet-search.css">
 		<link rel="stylesheet" href="css/leaflet-sidebar.css">
 		<link rel="stylesheet" href="font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.css">
-		<link rel="stylesheet" href="css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="css/custom.css"/>
         <style>
         html, body, #map {
             width: 100%;
@@ -31,7 +29,6 @@
                 <li><a href="#home" title = "Info" role="tab"><i class="fa fa-info"></i></a></li>
 				<li><a href="#mylegend" title = "Mostra i tematismi" role="tab"><i class="fa fa-map"></i></a></li>
 				<li><a href="#search" title = "Cerca il comune" role="tab"><i class="fa fa-search"></i></a></li>
-				<li><a href="#descr" title = "Mostra la descrizione dei tematismi" role="tab"><i class="fa fa-question"></i></a></li>
             </ul>
         </div>
     
@@ -39,140 +36,22 @@
         <div class="sidebar-content">
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
-                    WebGIS <span style="color: #7BC5B8">RIONERO</span><span style="color: #948077">2</span><span style="color: #FFD960">0</span><span style="color: #948077">2</span><span style="color: #FFD960">0</span>
+                    WebGIS <span style="color: #7BC5B8">Rionero</span><span style="color: #948077">2</span><span style="color: #FFD960">0</span><span style="color: #948077">2</span><span style="color: #FFD960">0</span>
                     <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1>
-                <p><span style="font-size:24px;color: #7BC5B8">RIONERO</span>
-				<span style="font-size:24px;color: #948077">2</span><span style="font-size:24px;color: #FFD960">0</span><span style="font-size:24px;color: #948077">2</span><span style="font-size:24px;color: #FFD960">0</span></p>
-				<p><span style="font-size:18px;color: #948077">LABORATORIO PARTECIPATO PER LO SVILUPPO LOCALE</span>
+                <p>A responsive sidebar for mapping libraries like <a href="http://leafletjs.com/">Leaflet</a> or <a href="http://openlayers.org/">OpenLayers</a>.</p>
     
                 <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed 	  diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-				<br>
-				<a href="https://www.facebook.com/rionero2020/?ref=br_rs" target="_blank"> <img border="0" alt="segui su facebook" src="images/facebook.png" width="50" height="50"> </a>
             </div>
 			<div class="sidebar-pane" id="mylegend">
                 <h1 class="sidebar-header">Tematismi<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+				<p id="geotext"></p>
+				<p id="sidebar-text"></p>
             </div>
 			<div class="sidebar-pane" id="search">
                 <h1 class="sidebar-header">Cerca il comune...<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
 				<p id="geotext"></p>
 				<p id="sidebar-text"></p>
-            </div>
-			<div class="sidebar-pane" id="descr">
-                <h1 class="sidebar-header">Descrizione dei tematismi<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-				<p id="geotext">Clicca sul pulsante per scoprire il signficato delle mappe</p>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Popolazione e dinamiche demografiche</button>
-				<div id="demo" class="collapse">
-				La mappa contiene informazioni sull'andamento demografico dei vari comuni. I trend demografici sono calcolati come differenza della popolazione nella
-					data più vecchia e nell data più recente (sia in termini assoluti che in termini percentuali). I colori della mappa di riferiscono al Trend demografico
-					in percentuale. L'etichetta sui comuni riporta l'anno di "scomparsa" demografica ossia l'anno in cui non ci saranno più abitanti. Tale calcolo, ottenuto tramite una semplice regressione lineare, è una semplificazione in quanto non tiene conto di altri fattori che possono influenzare il tasso demografico (variabili economiche, ambientali).
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Tasso di disoccupazione</button>
-				<div id="demo1" class="collapse">
-				Esprime il rapporto percentuale tra la popolazione residente di 15 anni e più in cerca di occupazione e la popolazione residente di 15 anni e più attiva. L’indicatore rappresenta la quota percentuale di forza lavoro che è alla ricerca di una nuova occupazione perché ha perso il lavoro oppure è alla ricerca di una prima occupazione. Il rapporto permette di misurare l’eccesso di offerta di lavoro rispetto alla domanda espressa dal sistema economico. È uno dei principali indicatori sul ciclo economico del territorio indagato.
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>	
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Tasso di disoccupazione giovanile</button>
-				<div id="demo2" class="collapse">
-				Esprime il rapporto percentuale tra la popolazione residente di 15-24 anni in cerca di occupazione e la popolazione residente di 15-24 anni attiva.
-				L’indicatore rappresenta la quota percentuale di forza lavoro giovanile che è alla ricerca di una nuova occupazione perché ha perso il lavoro oppure è alla ricerca di una prima occupazione. Il rapporto permette di misurare l’eccesso di offerta di lavoro – con riferimento alla classe di età considerata – rispetto alla domanda espressa dal sistema economico.
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo3">Indice di vulnerabilità sociale e materiale</button>
-				<div id="demo3" class="collapse">
-				Esprime con un unico valore i diversi aspetti di un fenomeno di natura multidimensionale attraverso la combinazione di sette indicatori elementari che descrivono le principali dimensioni “materiali” e “sociali” della vulnerabilità. In particolare:
-				<li>incidenza percentuale della popolazione di età compresa fra 25 e 64 anni analfabeta e alfabeta senza titolo di studio;
-				<li>incidenza percentuale delle famiglie con 6 e più componenti;
-				<li>incidenza percentuale delle famiglie monogenitoriali giovani (età del genitore inferiore ai 35 anni);
-				<li>incidenza percentuale delle famiglie con potenziale disagio assistenziale (famiglie composte solo da anziani over 65 e con la presenza di almeno un ottantenne)
-				<li>incidenza percentuale della popolazione in condizione di affollamento grave, data dal rapporto percentuale tra la popolazione residente in abitazioni con superficie inferiore a 40 mq e più di 4 occupanti o in 40-59 mq e più di 5 occupanti o in 60-79 mq e più di 6 occupanti, e il totale della popolazione residente in abitazioni occupate;
-				<li>incidenza percentuale di giovani (15-29 anni) fuori dal mercato del lavoro e dalla formazione scolastica;
-				<li>incidenza percentuale delle famiglie con potenziale disagio economico, (quota di famiglie giovani o adulte con figli nei quali nessuno è occupato o è ritirato da lavoro)
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-					
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo4">Indice di vecchiaia</button>
-				<div id="demo4" class="collapse">
-				Misura il numero di anziani presenti in una popolazione ogni 100 giovani, permettendo di valutare il livello d’invecchiamento degli abitanti di un territorio. La variazione dell’indice nel tempo dipende dalla dinamica sia della popolazione anziana che di quella giovane. Valori superiori a 100 indicano una maggiore presenza di soggetti anziani rispetto ai molto giovani.
-				L’indice di vecchiaia è il rapporto percentuale tra la popolazione di 65 anni e più e la popolazione di età 0-14 anni.
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-					
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo5">Partecipazione al mercato del lavoro</button>
-				<div id="demo5" class="collapse">
-				Esprime il rapporto percentuale tra la popolazione residente attiva e la popolazione residente della stessa classe di età. L’indicatore rappresenta il tasso di attività, cioè la quota percentuale di persone che appartengono alle forze di lavoro (popolazione attiva) sul totale della popolazione in età corrispondente (10 anni e oltre fino al 1961; 15 anni e oltre dal 1971). La popolazione attiva esprime una misura dell’offerta di lavoro in atto sul mercato e, in rapporto alla popolazione residente, indica la propensione di quest’ultima a svolgere o voler svolgere un’attività lavorativa in grado di produrre un reddito. Il tasso di attività dipende da fattori sia socio-economici (caratteristiche della struttura produttiva, livello di istruzione, ecc.) che demografici (struttura per età e sesso della popolazione). 
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-					
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo6">Incidenza di famiglie in potenziale disagio economico</button>
-				<div id="demo6" class="collapse">
-				Attraverso questo indicatore si individuano situazioni di potenziali difficoltà economiche per la mancanza di almeno un reddito da lavoro o da pensione derivante da attività lavorativa, si esprime rapporto percentuale tra il numero di famiglie con figli con la persona di riferimento in età fino a 64 anni nelle quali nessun componente è occupato o ritirato dal lavoro e il totale delle famiglie
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-					
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo7">Uscita precoce dal sistema di istruzione e formazione</button>
-				<div id="demo7" class="collapse">
-				Esprime il  rapporto percentuale tra la popolazione residente di 15-24 anni con licenza media che non è iscritto ad un corso regolare di studi e non frequenta un corso di formazione professionale e la popolazione residente di 15-24 anni. L’indicatore viene utilizzato per misurare l’incidenza di giovani usciti dal sistema scolastico senza avere conseguito un diploma e senza accedere alla formazione professionale alla fine dell’obbligo scolastico.
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo8">Incidenza di giovani con istruzione universitaria</button>
-				<div id="demo8" class="collapse">
-				Esprime il rapporto percentuale tra la popolazione residente di 30-34 anni in possesso di titolo universitario e la popolazione residente di 30-34 anni. L’indicatore esprime una misura della ricchezza in termini di capitale umano della popolazione più giovane , nel caso particolare di quella che ha già di norma completato il proprio ciclo di studi, fornendo una misura sulle potenzialità di sviluppo in termini socio-economici della popolazione di riferimento. Rientra tra quelli individuati dalla Commissione europea nella strategia Europa 2020 per fissare e monitorare gli obiettivi strategici dei paesi dell’Unione Europea
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo9">Incidenza di giovani 15-29 anni che non studiano e non lavorano</button>
-				<div id="demo9" class="collapse">
-				Esprime il rapporto percentuale tra la popolazione residente di 15-29 anni non studente e non occupata e la popolazione residente di 15-29 anni. L’indicatore rappresenta la quota percentuale di giovani tra 15 e 29 anni che non sono iscritti ad un corso di studi, che non frequentano un corso di formazione e che non lavorano. Il valore esprime la quota di giovani, che usciti da un percorso di studi, non riescono a trovare un’occupazione
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo10">Incidenza di giovani fuori dal mercato del lavoro e della formazione</button>
-				<div id="demo10" class="collapse">
-				L’indicatore individua la quota di popolazione in età 15-29 anni che risulta non occupata, non in cerca di occupazione e nemmeno inserita in un percorso regolare di istruzione/formazione.
-					<br>
-					<br>
-					<b>Fonte dati ISTAT</b>
-				</div>
             </div>
 		</div>			
         </div>
@@ -181,11 +60,9 @@
 		<script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
 		<script src="js/leaflet-sidebar.js"></script> <!--script sidebar-->
-		<!--<script src="js/jquery-sidebar.js"></script> <!-- call to jquery -->
+		<script src="js/jquery-sidebar.js"></script> <!-- call to jquery -->
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> <!-- call to jquery -->
 		<script type="text/javascript" src="js/leaflet.ajax.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
 		<script src="js/spin.js"></script>
 		<script src="js/leaflet.spin.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
@@ -210,8 +87,8 @@
         <script src="data/Popolazioneedinamichedemografiche_11.js"></script>
         <script>
         var map = L.map('map', {
-            zoomControl:false, maxZoom:13, minZoom:9
-        }).fitBounds([[41.29,13.37],[42.14,15.15]]);
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.2969730234,13.375475103],[42.1494822033,15.1582093373]]);
         var hash = new L.Hash(map);
         map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
         var bounds_group = new L.featureGroup([]);
@@ -222,8 +99,7 @@
         basemap0.addTo(map);
         function setBounds() {
             map.setMaxBounds(map.getBounds());
-       };
-		
+        }
         function pop_LimitiComunali_0(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -1364,7 +1240,7 @@
                         <td colspan="2"><strong>Trend demografico 1971-2017 (n°abitanti)</strong><br />' + (feature.properties['Trend demografico 1971-2017 (n°abitanti)'] !== null ? Autolinker.link(String(feature.properties['Trend demografico 1971-2017 (n°abitanti)'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>Trend demografico 1971-2017 (%)</strong><br />' + (feature.properties['Trend demografico 1971-2017 (percentuale)'] !== null ? Autolinker.link(String(feature.properties['Trend demografico 1971-2017 (percentuale)'])) : '') + '</td>\
+                        <td colspan="2"><strong>tren demografico 1971-2017 (%)</strong><br />' + (feature.properties['Trend demografico 1971-2017 (percentuale)'] !== null ? Autolinker.link(String(feature.properties['Trend demografico 1971-2017 (percentuale)'])) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2"><strong>Scompare nel...</strong><br />' + (feature.properties['Scompare nel...'] !== null ? Autolinker.link(String(feature.properties['Scompare nel...'])) : '') + '</td>\
@@ -1455,9 +1331,7 @@
             style: style_Popolazioneedinamichedemografiche_11_0,
         });
         bounds_group.addLayer(layer_Popolazioneedinamichedemografiche_11);
-
-		
-var baseMaps = {};
+        var baseMaps = {};
 var mylegend = L.control.layers(baseMaps,{'<b>Popolazione e dinamiche demografiche</b><br /><table><tr><td style="text-align: center;"><img src="legend/Popolazioneedinamichedemografiche_11_70400.png" /></td><td>-70 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Popolazioneedinamichedemografiche_11_40201.png" /></td><td>-40 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Popolazioneedinamichedemografiche_11_2002.png" /></td><td>-20 - 0</td></tr><tr><td style="text-align: center;"><img src="legend/Popolazioneedinamichedemografiche_11_0203.png" /></td><td>0 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Popolazioneedinamichedemografiche_11_20404.png" /></td><td>20 - 40</td></tr></table>': layer_Popolazioneedinamichedemografiche_11,'<b>Tasso di disoccupazione (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazione_10_050.png" /></td><td>0 - 5</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazione_10_5101.png" /></td><td>5 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazione_10_10152.png" /></td><td>10 - 15</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazione_10_15203.png" /></td><td>15 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazione_10_20254.png" /></td><td>20 - 25</td></tr></table>': layer_Tassodidisoccupazione_10,'<b>Tasso di disoccupazione giovanile (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_50605.png" /></td><td>50 - 60</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_60706.png" /></td><td>60 - 70</td></tr><tr><td style="text-align: center;"><img src="legend/Tassodidisoccupazionegiovanile_9_70807.png" /></td><td>70 - 80</td></tr></table>': layer_Tassodidisoccupazionegiovanile_9,'<b>Indice di vulnerabilità sociale e materiale (1-10)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Indicedivulnerabilitsocialeemateriale_8_020.png" /></td><td>0 - 2</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivulnerabilitsocialeemateriale_8_241.png" /></td><td>2 - 4</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivulnerabilitsocialeemateriale_8_462.png" /></td><td>4 - 6</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivulnerabilitsocialeemateriale_8_683.png" /></td><td>6 - 8</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivulnerabilitsocialeemateriale_8_8104.png" /></td><td>8 - 10</td></tr></table>': layer_Indicedivulnerabilitsocialeemateriale_8,'<b>Indice di vecchiaia (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Indicedivecchiaia_7_1002000.png" /></td><td>100 - 200</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivecchiaia_7_2003001.png" /></td><td>200 - 300</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivecchiaia_7_3004002.png" /></td><td>300 - 400</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivecchiaia_7_4005003.png" /></td><td>400 - 500</td></tr><tr><td style="text-align: center;"><img src="legend/Indicedivecchiaia_7_5004.png" /></td><td>>500</td></tr></table>': layer_Indicedivecchiaia_7,'<b>Partecipazione al mercato del lavoro (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Partecipazionealmercatodellavoro_6_30350.png" /></td><td>30 - 35</td></tr><tr><td style="text-align: center;"><img src="legend/Partecipazionealmercatodellavoro_6_35401.png" /></td><td>35 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Partecipazionealmercatodellavoro_6_40452.png" /></td><td>40 - 45</td></tr><tr><td style="text-align: center;"><img src="legend/Partecipazionealmercatodellavoro_6_45503.png" /></td><td>45 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Partecipazionealmercatodellavoro_6_504.png" /></td><td>>50</td></tr></table>': layer_Partecipazionealmercatodellavoro_6,'<b>Incidenza di famiglie in potenziale disagio economico (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Incidenzadifamiglieinpotenzialedisagioeconomico_5_00100.png" /></td><td> 0.0 - 1.0 </td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadifamiglieinpotenzialedisagioeconomico_5_10201.png" /></td><td> 1.0 - 2.0 </td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadifamiglieinpotenzialedisagioeconomico_5_20302.png" /></td><td> 2.0 - 3.0 </td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadifamiglieinpotenzialedisagioeconomico_5_30403.png" /></td><td> 3.0 - 4.0 </td></tr></table>': layer_Incidenzadifamiglieinpotenzialedisagioeconomico_5,'<b>Uscita precoce dal sistema di istruzione e formazione (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Uscitaprecocedalsistemadiistruzioneeformazione_4_050.png" /></td><td>0 - 5</td></tr><tr><td style="text-align: center;"><img src="legend/Uscitaprecocedalsistemadiistruzioneeformazione_4_5101.png" /></td><td>5 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Uscitaprecocedalsistemadiistruzioneeformazione_4_10152.png" /></td><td>10 - 15</td></tr><tr><td style="text-align: center;"><img src="legend/Uscitaprecocedalsistemadiistruzioneeformazione_4_15203.png" /></td><td>15 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Uscitaprecocedalsistemadiistruzioneeformazione_4_20304.png" /></td><td>20 - 30</td></tr></table>': layer_Uscitaprecocedalsistemadiistruzioneeformazione_4,'<b>Incidenza giovani con istruzione universitaria (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Incidenzagiovaniconistruzioneuniversitaria_3_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzagiovaniconistruzioneuniversitaria_3_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzagiovaniconistruzioneuniversitaria_3_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzagiovaniconistruzioneuniversitaria_3_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzagiovaniconistruzioneuniversitaria_3_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzagiovaniconistruzioneuniversitaria_3_505.png" /></td><td>>50</td></tr></table>': layer_Incidenzagiovaniconistruzioneuniversitaria_3,'<b>Incidenza di giovani 15-29 anni che non studiano e non lavorano (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovani1529annichenonstudianoenonlavorano_2_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovani1529annichenonstudianoenonlavorano_2_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovani1529annichenonstudianoenonlavorano_2_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovani1529annichenonstudianoenonlavorano_2_30403.png" /></td><td>30 - 40</td></tr></table>': layer_Incidenzadigiovani1529annichenonstudianoenonlavorano_2,'<b>Incidenza di giovani fuori dal mercato del lavoro e della formazione (%)</b><br /><table><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovanifuoridalmercatodellavoroedellaformazione_1_050.png" /></td><td> 0 - 5</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovanifuoridalmercatodellavoroedellaformazione_1_5101.png" /></td><td> 5 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovanifuoridalmercatodellavoroedellaformazione_1_10152.png" /></td><td> 10 - 15 </td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovanifuoridalmercatodellavoroedellaformazione_1_15203.png" /></td><td> 15 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Incidenzadigiovanifuoridalmercatodellavoroedellaformazione_1_20254.png" /></td><td>20 - 25</td></tr></table>': layer_Incidenzadigiovanifuoridalmercatodellavoroedellaformazione_1,'<img src="legend/LimitiComunali_0.png" /> <b>Limiti Comunali</b>': layer_LimitiComunali_0,},{collapsed:false}).addTo(map);
         setBounds();
         var i = 0;
@@ -1475,10 +1349,10 @@ var mylegend = L.control.layers(baseMaps,{'<b>Popolazione e dinamiche demografic
         });
 		
 		//evento che permette di aprire il div al click
-		//$("div").on("click", '.sidebar-open-button', function () {
-		//var ID = $(this).attr("data");
-		//openSidebar(ID);
-		//});
+		$("div").on("click", '.sidebar-open-button', function () {
+		var ID = $(this).attr("data");
+		openSidebar(ID);
+		});
 		
 		
 var search = new L.Control.Search({
@@ -1498,7 +1372,6 @@ var search = new L.Control.Search({
             resetLabels([layer_Popolazioneedinamichedemografiche_11]);
         });
 		
-		var zoomControl = L.control.zoom({position: 'topright'}).addTo(map);
 		var sidebar = L.control.sidebar('sidebar').addTo(map);
 		
 		var htmlObject = mylegend.getContainer();
@@ -1514,8 +1387,7 @@ var search = new L.Control.Search({
 		newParent.appendChild(el);
 		}
 		setParent(htmlObject, a);
+
         </script>
-		
-		<input type='checkbox' name='thing' value='valuable' id="thing"/><label for="thing"></label> 
     </body>
 </html>
