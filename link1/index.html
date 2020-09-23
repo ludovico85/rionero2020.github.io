@@ -34,11 +34,30 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet-search.js"></script>
+		<script src="js/proj4.js"></script>
+		<script src="js/proj4leaflet.js"></script>
         <script src="data/ParticelleComunali_0.js"></script>
         <script src="data/Quadrounione_1.js"></script>
 		<script src="https://unpkg.com/sql.js@0.3.2/js/sql.js"></script>
 		<script src="js/Leaflet.TileLayer.MBTiles.js"></script>
         <script>
+		
+		//libreria proj4 per caricare i dati del catasto che vengono distributi con altro ESPG//
+		var ETRS89width= 18.99-5.93;
+		var startResolution = ETRS89width/1024;
+		var grid_resolution = new Array(22);
+		for (var i = 0; i < 22; ++i) {
+			grid_resolution[i] = startResolution / Math.pow(2, i);
+		}
+		var crs_6706 = new L.Proj.CRS('EPSG:6706',
+			'+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+		{
+			resolutions: grid_resolution,
+			origin: [0, 0],
+			bounds: L.bounds([5.93, 34.76], [18.99, 47.1])
+		});
+		
+		
         var map = L.map('map', {
             zoomControl:true, maxZoom:19, minZoom:1
         }).fitBounds([[41.6422109263,13.934721924],[41.8102181401,14.3685335932]]);
@@ -52,24 +71,129 @@
         });
         measureControl.addTo(map);
         var bounds_group = new L.featureGroup([]);
-        var basemap0 = L.tileLayer('http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png', {
-            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>,<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash;Map data: &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 19
-        });
-        basemap0.addTo(map);
-		var basemap1 = L.tileLayer.wms('http://213.215.135.196/reflector/open/service?', {
-		layers:'rv1',
-		format: 'image/jpeg',
-		transparent: false,
-		attribution: '&copy; <a href="http://www.realvista.it/">Realvista</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-		});
-		basemap1.addTo(map);
+		
+		var google = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+		attribution: '&copy;Immagini ©2020 CNES / Airbus,Landsat / Copernicus,Maxar Technologies,Dati cartografici ©2020 '
+		}).addTo(map);
+		google.addTo(map);
 		
 		let basemapControl = {
-		"Stamen terrain": basemap0,
-		"Ortofoto": basemap1
-		}
+		"Ortofoto": google
+		};
 		
+var wmsLayer_1 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+	layers: ['province', 'CP.CadastralZoning'],
+	crs: crs_6706,
+	format: 'image/png',
+	maxZoom: 21,
+	transparent: true,
+	attribution: '© ' + '<a href="https://creativecommons.org/licenses/by-nc-nd/2.0/it/">Agenzia delle Entrate</a>',
+});
+		
+var wmsLayer_2 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: ['CP.CadastralParcel'],
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+	opacity: 0.6,
+});
+
+var wmsLayer_3 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'fabbricati',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+	opacity: 0.6,
+
+});
+
+var wmsLayer_4 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'strade',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+	opacity: 0.6,
+});
+
+var wmsLayer_5 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'acque',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+	opacity: 0.6,
+
+});
+
+var wmsLayer_6 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'vestizioni',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+});	
+
+/*/get feature info/*/
+function getFeatureInfoUrl(map, layer, latlng, crs) {
+    var point = map.latLngToContainerPoint(latlng, map.getZoom()),
+	    size = map.getSize(),
+        bounds = map.getBounds(),
+        sw = bounds.getSouthWest(),
+        ne = bounds.getNorthEast(),
+        sw = crs.projection._proj.forward([sw.lng, sw.lat]),
+        ne = crs.projection._proj.forward([ne.lng, ne.lat]);
+
+    var defaultParams = {
+        request: 'GetFeatureInfo',
+        service: 'WMS',
+        srs: layer._crs.code,
+        styles: '',
+        version: layer._wmsVersion,
+        format: layer.options.format,
+        bbox: [sw.join(','), ne.join(',')].join(','),
+        height: size.y,
+        width: size.x,
+        layers: layer.options.layers,
+        query_layers: layer.options.layers,
+        info_format: 'text/html'
+    };
+    params = L.Util.extend(defaultParams);
+    params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
+    params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
+
+    return layer._url + L.Util.getParamString(params, layer._url, true);
+};		
+
+	//definizione dell'oggetto popup
+	var popup = L.popup({maxWidth: 500});
+
+	//gestione dell'evento click sulla mappa
+	map.on('click', function(evt) {
+	var coord =evt.latlng;
+	//invocata la funzione per generare l'URL della richiesta GetFeatureInfo 
+	var gFIurl = getFeatureInfoUrl(map, wmsLayer_2, coord, crs_6706);
+	if (gFIurl) {
+		var xhttp;
+			//istanza di una richiesta XHTTP
+		xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		popup
+			.setLatLng(coord)
+			.setContent(xhttp.responseText)
+			.openOn(map);;
+		}
+	};
+	//bypass CORS policy
+	xhttp.open("GET", "https://cors-anywhere.herokuapp.com/" + gFIurl, true);
+	xhttp.send();
+	}
+	});
+/*/fine get feature info /*/
+
 		
         function setBounds() {
             map.setMaxBounds(map.getBounds());
@@ -130,7 +254,7 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(176,8,188,0.0)',
+                fillColor: 'rgba(255,127,0,0.2)',
             }
         }
         map.createPane('pane_ParticelleComunali_0');
@@ -151,7 +275,7 @@
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
-        }
+        };
 
         function style_Quadrounione_1_0() {
             return {
@@ -161,7 +285,7 @@
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1.0, 
+                weight: 2.0, 
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(208,154,171,0.0)',
@@ -179,12 +303,27 @@
         bounds_group.addLayer(layer_Quadrounione_1);
         map.addLayer(layer_Quadrounione_1);
 		
-		
-        var Catasto = L.tileLayer.mbTiles('catasto_e0d7d3.mbtiles');<!--.addTo(map)-->
-
+		/*/ selettore opacità /*/
+		/*/function updateOpacity(value) {
+		wmsLayer_2.setParams({opacity:value}, false);
+		};
+		var baseMaps = {};
+        L.control.layers(basemapControl,{'<img src="legend/Quadrounione_1.png" /> Quadro unione': layer_Quadrounione_1,'<img src="legend/ParticelleComunali_0.png" /> Particelle Comunali': layer_ParticelleComunali_0,
+			'Particelle <br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity(this.value)">':wmsLayer_2,
+			'Fabbricati':wmsLayer_3,
+			'Strade':wmsLayer_4,
+			'Acque':wmsLayer_5,
+			'Vestizioni':wmsLayer_6},
+			{collapsed:false}).addTo(map);/*/
 		
 		var baseMaps = {};
-        L.control.layers(basemapControl,{'<img src="legend/Quadrounione_1.png" /> Quadro unione': layer_Quadrounione_1,'<img src="legend/ParticelleComunali_0.png" /> Particelle Comunali': layer_ParticelleComunali_0, Catasto},{collapsed:false}).addTo(map);
+        L.control.layers(basemapControl,{'<img src="legend/Quadrounione_1.png" /> Quadro unione': layer_Quadrounione_1,'<img src="legend/ParticelleComunali_0.png" /> Particelle Comunali': layer_ParticelleComunali_0,
+			'Particelle': wmsLayer_2,
+			'Fabbricati':wmsLayer_3,
+			'Strade':wmsLayer_4,
+			'Acque':wmsLayer_5,
+			'Vestizioni':wmsLayer_6},
+			{collapsed:false}).addTo(map);
         setBounds();
         var i = 0;
         layer_Quadrounione_1.eachLayer(function(layer) {
@@ -192,7 +331,7 @@
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['Foglio'] !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Foglio']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Quadrounione_1'});
+            layer.bindTooltip((layer.feature.properties['Foglio'] !== null?String('<div style="color: #ff0000;padding: 2px; background-color: rgba(255,255,255,0.7); font-size: 8pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Foglio']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Quadrounione_1'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
