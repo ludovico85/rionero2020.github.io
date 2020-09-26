@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
+		<link rel="stylesheet" href="css/L.Control.ZoomDisplay.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -40,6 +41,7 @@
         <script src="data/Quadrounione_1.js"></script>
 		<script src="https://unpkg.com/sql.js@0.3.2/js/sql.js"></script>
 		<script src="js/Leaflet.TileLayer.MBTiles.js"></script>
+		<script src="js/L.Control.ZoomDisplay.js"></script>
         <script>
 		
 		//libreria proj4 per caricare i dati del catasto che vengono distributi con altro ESPG//
@@ -59,15 +61,16 @@
 		
 		
         var map = L.map('map', {
-            zoomControl:true, maxZoom:19, minZoom:1
+            zoomControl:true, maxZoom:19, minZoom:13
         }).fitBounds([[41.6422109263,13.934721924],[41.8102181401,14.3685335932]]);
         var hash = new L.Hash(map);
-        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>, Realizzato da <b>Ludovico Frate</b>');
         var measureControl = new L.Control.Measure({
             primaryLengthUnit: 'meters',
             secondaryLengthUnit: 'kilometers',
             primaryAreaUnit: 'sqmeters',
-            secondaryAreaUnit: 'hectares'
+            secondaryAreaUnit: 'hectares',
+			position: 'topleft'
         });
         measureControl.addTo(map);
         var bounds_group = new L.featureGroup([]);
@@ -96,7 +99,7 @@ var wmsLayer_2 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/
 	format: 'image/png',
     maxZoom: 21,
     transparent: true,
-	opacity: 0.6,
+	opacity: 1,
 });
 
 var wmsLayer_3 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
@@ -105,7 +108,7 @@ var wmsLayer_3 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/
 	format: 'image/png',
     maxZoom: 21,
     transparent: true,
-	opacity: 0.6,
+	opacity: 1,
 
 });
 
@@ -115,7 +118,7 @@ var wmsLayer_4 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/
 	format: 'image/png',
     maxZoom: 21,
     transparent: true,
-	opacity: 0.6,
+	opacity: 1,
 });
 
 var wmsLayer_5 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
@@ -124,7 +127,7 @@ var wmsLayer_5 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/
 	format: 'image/png',
     maxZoom: 21,
     transparent: true,
-	opacity: 0.6,
+	opacity: 1,
 
 });
 
@@ -304,26 +307,27 @@ function getFeatureInfoUrl(map, layer, latlng, crs) {
         map.addLayer(layer_Quadrounione_1);
 		
 		/*/ selettore opacità /*/
-		/*/function updateOpacity(value) {
-		wmsLayer_2.setParams({opacity:value}, false);
+		function updateOpacity2(value) {
+		wmsLayer_2.setOpacity(value);
+		};
+		function updateOpacity3(value) {
+		wmsLayer_3.setOpacity(value);
+		};
+		function updateOpacity4(value) {
+		wmsLayer_4.setOpacity(value);
+		};
+		function updateOpacity5(value) {
+		wmsLayer_5.setOpacity(value);
 		};
 		var baseMaps = {};
         L.control.layers(basemapControl,{'<img src="legend/Quadrounione_1.png" /> Quadro unione': layer_Quadrounione_1,'<img src="legend/ParticelleComunali_0.png" /> Particelle Comunali': layer_ParticelleComunali_0,
-			'Particelle <br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity(this.value)">':wmsLayer_2,
-			'Fabbricati':wmsLayer_3,
-			'Strade':wmsLayer_4,
-			'Acque':wmsLayer_5,
-			'Vestizioni':wmsLayer_6},
-			{collapsed:false}).addTo(map);/*/
-		
-		var baseMaps = {};
-        L.control.layers(basemapControl,{'<img src="legend/Quadrounione_1.png" /> Quadro unione': layer_Quadrounione_1,'<img src="legend/ParticelleComunali_0.png" /> Particelle Comunali': layer_ParticelleComunali_0,
-			'Particelle': wmsLayer_2,
-			'Fabbricati':wmsLayer_3,
-			'Strade':wmsLayer_4,
-			'Acque':wmsLayer_5,
-			'Vestizioni':wmsLayer_6},
+			'Particelle (visibile a zoom >= 17)<br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity2(this.value)">':wmsLayer_2,
+			'Fabbricati <br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity3(this.value)">':wmsLayer_3,
+			'Strade <br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity4(this.value)">':wmsLayer_4,
+			'Acque <br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity5(this.value)">':wmsLayer_5,
+			'Etichette (visibile a zoom >= 18)':wmsLayer_6},
 			{collapsed:false}).addTo(map);
+		
         setBounds();
         var i = 0;
         layer_Quadrounione_1.eachLayer(function(layer) {
